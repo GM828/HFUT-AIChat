@@ -1,0 +1,50 @@
+#ai大模型连接
+spring:
+  application:
+    name: hfut-ai
+  ai:
+    openai:
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
+      api-key: ${OPENAI_API_KEY}
+      #对话模型
+      chat:
+        options:
+          model: qwen-max-latest # 会话模型名称
+      #向量模型
+      embedding:
+        options:
+          model: text-embedding-v3 # 向量模型名称
+          dimensions: 1024 # 向量维度
+    #向量数据库
+    vectorstore:
+      redis:
+        index-name: spring_ai_index # 向量数据库索引名称
+        initialize-schema: true # 初始化向量数据库
+        prefix: "doc:" # 向量数据库key前缀
+  #redis连接
+  data:
+    redis:
+      host: 192.168.163.133 # redis地址
+      port: 6379 # redis端口
+  #数据库连接
+  datasource:
+    url: jdbc:mysql://localhost:3306/hfutai
+    username: root
+    password: 828417
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+#日志设置
+logging:
+  level:
+    org.springframework.ai: debug # AI对话的日志级别
+    com.itheima.ai: debug # 本项目的日志级别
+#Mybatis自动映射
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+#文件上传配置
+  servlet:
+    multipart:
+      max-file-size: 1048576000000
+      max-request-size: 1048576000000
+
